@@ -40,23 +40,48 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    fetch("https://yts.am/api/v2/list_movies.json?sort_by=download_count")
-      .then(response => response.json())
-      .then(json => console.log(json))
-      .catch(err => console.log(err));
+    this._getMovieList();
   }
+
+  _callApi = () => {
+    return fetch(
+      "https://yts.am/api/v2/list_movies.json?sort_by=download_count"
+    )
+      .then(response => response.json())
+      .then(json => json.data.movies)
+      .catch(err => console.log(err));
+  };
+
+  _getMovieList = async () => {
+    const movieList = await this._callApi();
+    this.setState({
+      movies: movieList
+    });
+  };
 
   _renderMovies = () => {
     const movies = this.state.movies.map((item, index) => {
-      return <Movie key={index} title={item.title} poster={item.poster} />;
+      console.log(this.state.movies);
+      return (
+        <Movie
+          index={index}
+          key={item.id}
+          title={item.title}
+          poster={item.large_cover_image}
+          genres={item.genres}
+          rating={item.rating}
+          summary={item.summary}
+        />
+      );
     });
     return movies;
   };
 
   render() {
+    const movies = this.state.movies;
     return (
-      <div className="App">
-        {this.state.movies ? (
+      <div className={movies ? "App" : "App-loading"}>
+        {movies ? (
           this._renderMovies()
         ) : (
           <p>영화 정보를 불러오고 있습니다...</p>
