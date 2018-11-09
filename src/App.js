@@ -84,7 +84,14 @@ class App extends Component {
         {movies ? (
           this._renderMovies()
         ) : (
-          <p>영화 정보를 불러오고 있습니다...</p>
+          <p className="load-text">
+            <div className="dot-container">
+              <span className="dot" />
+              <span className="dot" />
+              <span className="dot" />
+            </div>
+            <span>Loading</span>
+          </p>
         )}
       </div>
     );

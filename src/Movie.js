@@ -65,11 +65,12 @@ class Movie extends Component {
               <LinesEllipsis
                 className="movie-sumamry-text"
                 text={this.props.summary}
-                maxLine="4"
+                maxLine="3"
                 ellipsis="..."
                 trimRight
-                basedOn="letters"
+                basedOn="words"
               />
+              <button className="btn-more">+ MORE</button>
             </div>
           </div>
         </div>
